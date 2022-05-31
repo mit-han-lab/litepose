@@ -1,3 +1,3 @@
 # Lite Pose: Efficient Architecture Design for 2D Human Pose Estimation
 
-Coming soon.
+We will release the first version of our code before 6.3. Stay tuned!
