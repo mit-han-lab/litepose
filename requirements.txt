@@ -1,0 +1,14 @@
+EasyDict==1.7
+opencv-python
+Cython
+scipy
+pandas
+pyyaml==5.4.1
+json_tricks
+scikit-image
+tensorboardX
+yacs
+cffi
+munkres
+tqdm
+ptflops
