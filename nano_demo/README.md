@@ -1,4 +1,4 @@
-# lite-pose-demo
+# Lite Pose Real-time on Nvidia Jetson Nano with TVM
 
 <p align="center">
   <img src="demo.gif" width=600>
