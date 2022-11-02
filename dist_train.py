@@ -43,7 +43,6 @@ from utils.utils import get_optimizer
 from utils.utils import save_checkpoint
 from utils.utils import setup_logger
 from utils.utils import get_model_summary
-from scheduler import WarmupMultiStepLR
 from arch_manager import ArchManager
 
 def parse_args():
@@ -128,6 +127,7 @@ def main():
         args.world_size = int(os.environ["WORLD_SIZE"])
 
     args.distributed = args.world_size > 1 or cfg.MULTIPROCESSING_DISTRIBUTED
+    
 
     ngpus_per_node = torch.cuda.device_count()
     if cfg.MULTIPROCESSING_DISTRIBUTED:
@@ -254,7 +254,7 @@ def main_worker(
 
     if cfg.MODEL.SYNC_BN and not args.distributed:
         print('Warning: Sync BatchNorm is only supported in distributed training.')
-
+    args.gpu = None
     if args.distributed:
         if cfg.MODEL.SYNC_BN:
             model = nn.SyncBatchNorm.convert_sync_batchnorm(model)

@@ -1,0 +1,11 @@
+{
+  "model_type" : "litepose_xs",
+  "dataset_path" : "/root/dataset/crowdpose",
+  "num_joint" : 14,
+  "dataset_format" : "crowd_pose",
+  "cfg": {
+      "TRAIN": {
+          "END_EPOCH": 3
+      }
+  }
+}
