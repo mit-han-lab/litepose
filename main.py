@@ -7,7 +7,7 @@ import torch
 import importlib
 import _init_paths
 import os
-
+from distutils.dir_util import copy_tree
 from config import cfg
 
 
@@ -217,8 +217,9 @@ def main(valid=False):
         test_p = subprocess.Popen(args)
         test_p.wait()
 
-    
     make_onnx(cfg_file_path, supercfg, model_best_path, task_id, [1,3,256,256], f"{test_cfg_dict['OUTPUT_DIR']}/{task_id}.onnx")
+    copy_tree(test_cfg_dict["OUTPUT_DIR"], json_dict["output_path"])
+
 
 if __name__ == "__main__":
     main()

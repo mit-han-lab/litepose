@@ -15,8 +15,8 @@ RUN apt-get update || apt-get install -y \
     git \  
     vim \
     libgl1-mesa-glx \
-    libglib2.0-0 
-
+    libglib2.0-0 \
+    curl
 
 # pip install
 RUN pip install --upgrade pip && \
@@ -24,5 +24,6 @@ RUN pip install --upgrade pip && \
     pip install cython; pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI' \
     pip install 'git+https://github.com/Jeff-sjtu/CrowdPose#subdirectory=crowdpose-api/PythonAPI'
     
+RUN sh get_weights.sh
 
 CMD ["bash"]

@@ -7,5 +7,6 @@
       "TRAIN": {
           "END_EPOCH": 500
       }
-  }
+  },
+  "output_path" : "/root/output"
 }
