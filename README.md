@@ -1,251 +1,117 @@
-# Lite Pose
+LitePose for internal use
+=========================
 
-### [slides](assets/LitePose-slides.pdf)|[paper](https://arxiv.org/abs/2205.01271)|[video](https://www.youtube.com/watch?v=TodvXYrswDI)
+## 1. 지원 범위
 
-![demo](assets/LitePose-Mobile.gif)
+- Litepose XS
+- Litepose S
+- Litepose M
+- Litepose L
+- HigherHRNet (w32)
 
-## Abstract
+<br/>
 
-Pose estimation plays a critical role in human-centered vision applications. However, it is difficult to deploy state-of-the-art HRNet-based pose estimation models on resource-constrained edge devices due to the high computational cost (more than 150 GMACs per frame). In this paper, we study efficient architecture design for real-time multi-person pose estimation on edge. We reveal that HRNet's high-resolution branches are redundant for models at the low-computation region via our **gradual shrinking** experiments. Removing them improves both efficiency and performance. Inspired by this finding, we design **LitePose**, an efficient single-branch architecture for pose estimation, and introduce two simple approaches to enhance the capacity of LitePose, including **Fusion Deconv Head** and **Large Kernel Convs**. Fusion Deconv Head  removes the redundancy in high-resolution branches, allowing scale-aware feature fusion with low overhead. Large Kernel Convs significantly improve the model's capacity and receptive field while maintaining a low computational cost. With only 25\% computation increment, $7\times7$ kernels achieve $+14.0$ mAP better than $3\times 3$ kernels on the CrowdPose dataset. On mobile platforms, LitePose reduces the latency by up to $5.0\times$ without sacrificing performance, compared with prior state-of-the-art efficient pose estimation models, pushing the frontier of real-time multi-person pose estimation on edge.
+## 2. 성능
 
-## Results
+|model|FLOPs(GMac)|# of parameters|mAP(0.5)|mAP(0.5:0.9)|
+|---|---|---|---|---|
+|LitePose-XS|
+|LitePose-S|4.98|2.73|0.744|0.514|
+|LitePose-M|7.84|3.53|0.759|0.517|
+|LitePose-L|
+|HigherHRNet (w32)|48.03|28.64|0.822|0.601|
+
+* coco pretrained model 에 crwod pose 데이터셋 학습 결과
+
+<br/>
 
 
-### CrowdPose Test
 
-![image](assets/Figure-CrowdPose.png)
+## 3. 사용 방법
+1. 데이터셋 준비
+- COCO 형식의 데이터셋과 CrowdPose 형식의 데이터셋 사용 가능
+- COCO 의 경우 annotation 파일은 annotation 폴더 아래, image 파일은 images 폴더 아래에 분류 별로 저장한다.
+> dataset/  
+> dataset/annotation/  
+> dataset/images/  
+> dataset/images/test2017/  
+> dataset/images/train2017/  
+> dataset/images/val2017/
+- CrowdPose 의 경우 annotation 파일은 json 폴더 아래, images 폴더 아래 분류 상관 없이 저장한다.
+> dataset/  
+> dataset/json/  
+> dataset/images/  
 
-<table>
-    <tr>
-        <td rowspan="2">Model</td>
-        <td rowspan="2">mAP</td>
-        <td rowspan="2">#MACs</td>
-        <td colspan="3" align="center">Latency (ms)</td>
-    </tr>
-    <tr>
-        <td>Nano</td>
-        <td>Mobile</td>
-        <td>Pi</td>
-    </tr>
-    <tr>
-        <td>HigherHRNet-W24</td>
-        <td>57.4</td>
-        <td>25.3G</td>
-        <td>330</td>
-        <td>289</td>
-        <td>1414</td>
-    </tr>
-    <tr>
-        <td>EfficientHRNet-H<sub>-1</sub></td>
-        <td>56.3</td>
-        <td>14.2G</td>
-        <td>283</td>
-        <td>267</td>
-        <td>1229</td>
-    </tr>
-    <tr>
-        <td>LitePose-Auto-S <b>(Ours)</b></td>
-        <td>58.3</td>
-        <td>5.0G</td>
-        <td>97</td>
-        <td>76</td>
-        <td>420</td>
-    </tr>
-    <tr>
-        <td>LitePose-Auto-XS <b>(Ours)</b></td>
-        <td>49.4</td>
-        <td>1.2G</td>
-        <td>22</td>
-        <td>27</td>
-        <td>109</td>
-    </tr>
-</table>
+<br/>
 
-### COCO Val/Test 2017
-
-<table>
-    <tr>
-        <td rowspan="2">Model</td>
-        <td rowspan="2" align="center">mAP<br>(val)</td>
-        <td rowspan="2" align="center">mAP<br>(test-dev)</td>
-        <td rowspan="2">#MACs</td>
-        <td colspan="3" align="center">Latency (ms)</td>
-    </tr>
-    <tr>
-        <td>Nano</td>
-        <td>Mobile</td>
-        <td>Pi</td>
-    </tr>
-    </tr>
-        <td>EfficientHRNet-H<sub>-1</sub></td>
-        <td>59.2</td>
-        <td align="center">59.1</td>
-        <td>14.4G</td>
-        <td>283</td>
-        <td>267</td>
-        <td>1229</td>
-    </tr>
-    </tr>
-        <td>Lightweight OpenPose</td>
-        <td>42.8</td>
-        <td align="center">-</td>
-        <td>9.0G</td>
-        <td>-</td>
-        <td>97</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td>LitePose-Auto-M <b>(Ours)</b></td>
-        <td>59.8</td>
-        <td align="center">59.7</td>
-        <td>7.8G</td>
-        <td>144</td>
-        <td>97</td>
-        <td>588</td>
-    </tr>
-</table>
-
-*Note*: For more details, please refer to our paper.
-
-## Usage
-
-- [Prerequisites](#prerequisites)
-- [Data Preparation](#data-preparation)
-- [Results](#results)
-- [Training Process Overview](#training-process-overview)
-- [Evaluation](#evaluation)
-- [Models](#models)
-
-### Prerequisites
-
-1. Install [PyTorch](https://pytorch.org/) and other dependencies:
+2. git clone
 ```
-pip install -r requirements.txt
+git clone https://github.com/jwbaek-nota/litepose.git
 ```
+<br/>
 
-2. Install COCOAPI and CrowdPoseAPI following [Official HigherHRNet Repository](https://github.com/HRNet/HigherHRNet-Human-Pose-Estimation).
-
-### Data Preparation
-
-1. Please download from [COCO download](http://cocodataset.org/#download), 2017 Train/Val is needed for training and evalutation.
-2. Please download from [CrowdPose download](https://github.com/Jeff-sjtu/CrowdPose#dataset), Train/Val is training and evaluation.
-3. Refer to [Official HigherHRNet Repository](https://github.com/HRNet/HigherHRNet-Human-Pose-Estimation) for more details about the data arrangement.
-
-### Training Process Overview
-
-#### Super-net Training
-
-To train a supernet from scratch with the search space specified by [arch_manager.py](https://github.com/mit-han-lab/litepose-dev/blob/main/arch_manager.py), use
+3. docker build
 
 ```
-python dist_train.py --cfg experiments/crowd_pose/mobilenet/supermobile.yaml
+docker build -f Dockerfile -t notadockerhub/litepose:latest
 ```
 
-#### Weight Transfer
+<br/>
 
-After training the super-net, you may want to extract a specific sub-network (e.g. search-XS) from the super-net. The following script will be useful:
-
-```
-python weight_transfer.py --cfg experiments/crowd_pose/mobilenet/supermobile.yaml --superconfig mobile_configs/search-XS.json TEST.MODEL_FILE your_supernet_checkpoint_path
-```
-
-#### Normal Training
-
-To train a normal network with a specific architecture (e.g. search-XS), please use the following script:
-
-*Note*: Please change the **resolution** in configuration (e.g. experiments/crowd_pose/mobilenet/mobile.yaml) in accord with the architecture configuration (e.g. search-XS.json) before training.
+4. docker run  
+host 의 데이터셋이 있는 위치와 결과 파일들을 저장할 위치를 mount  시켜준다. 아래 예시에서는 host 의 ~/dataset 폴더에 데이터셋이 저장되어 있고 ~/output 폴더에 결과 파일들이 저장될 것이다.
 
 ```
-python dist_train.py --cfg experiments/crowd_pose/mobilenet/mobile.yaml --superconfig mobile_configs/search-XS.json
+docker run --gpus '"device=0,1,2,3"' --shm-size=8G -it -v ~/dataset:/root/dataset -v ~/output:/root/output notadockerhub/litepose:latest bash
 ```
 
-### Evaluation
+<br/>
 
-To evaluate the model with a specific architecture (e.g. search-XS), please use the following script:
-
+5. 기본 세팅으로 학습  
 ```
-python valid.py --cfg experiments/crowd_pose/mobilenet/mobile.yaml --superconfig mobile_configs/search-XS.json TEST.MODEL_FILE your_checkpoint_path
+python main.py --json json_examples/litepose_l_crowdpose.json
 ```
+* LitePose XS : json_examples/litespose_xs_crowdpose.json
+* LitePose S : json_examples/litespose_s_crowdpose.json
+* LitePose M : json_examples/litespose_m_crowdpose.json
+* LitePose L : json_examples/litespose_l_crowdpose.json
+* HigherHRNet (w32) : json_examples/higherhrnet_crowdpose.json
 
-### Models
+<br/>
 
-#### Pre-trained Models
+6. 커스텀 세팅으로 학습 시 유의사항
+* json 파일을 수정하여 커스텀 세팅으로 학습이 가능함
+* 필수
+```
+model_type : litepose_xs, litepose_s, litepose_m, litepose_l, higherhrnet_w32 중 1  
 
-To re-implement results in the paper, we need to load pre-trained checkpoints before training super-nets. These checkpoints are provided in [COCO-Pretrain](https://drive.google.com/file/d/18WOtQ6yi-pn69bAOeYojXMI7l8sZZG3p/view?usp=sharing) and [CrowdPose-Pretrain](https://drive.google.com/file/d/1fojt0DJA5WPg3IqdkGTpyOps4mdxpGn9/view?usp=sharing).
+dataset_path : container 내의 dataset 의 위치
 
-#### APK for Android Phones
-[goodle drive link](https://drive.google.com/file/d/1qZIpFM4v0bGK4TzV5ohqP9i5dwgpB8d5/view?usp=sharing)
+num_joint : keypoint (joint) 의 갯수
 
-#### Result Models
+dataset_format : crowd_pose, coco 중 1
 
-We provide the checkpoints corresponding to the results in our paper.
+output_path : container 내에서 결과 파일들이 저장될 위치 - host 에 mounting 하는 것을 권장
+```
+* 선택
+```
+cfg - 기타 세팅
+```
+cfg 하위에 정의된 값들은 experiments/crowd_pose/mobilenet/mobile.yaml 파일에 덮어씌워진다. (higherhrnet 의 경우에는 experiments/crowd_pose/higher_hrnet/w32_512_adam_lr1e-3.yaml 파일)  
 
-<table>
-    <tr>
-        <td>Dataset</td>
-        <td>Model</td>
-        <td>#MACs</td>
-        <td>mAP</td>
-    </tr>
-    <tr>
-        <td rowspan="4" align="center">CrowdPose</td>
-        <td>LitePose-Auto-L</td>
-        <td>13.7</td>
-        <td>61.9</td>
-    </tr>
-    <tr>
-        <td><a href="https://drive.google.com/file/d/189VHaeFg3RkH2wBxm7iIM57cNVf7dN9y/view?usp=sharing">LitePose-Auto-M</a></td>
-        <td>7.8</td>
-        <td>59.9</td>
-    </tr>
-    <tr>
-        <td><a href="https://drive.google.com/file/d/1kCmjJfrOScaGFDpguEadwxdyJ_ESoR5P/view?usp=sharing">LitePose-Auto-S</a></td>
-        <td>5.0</td>
-        <td>58.3</td>
-    </tr>
-    <tr>
-        <td><a href="https://drive.google.com/file/d/1U3jIFEmPLbxSUhScZJv1JPAoiFboA8Y6/view?usp=sharing">LitePose-Auto-XS</a></td>
-        <td>1.2</td>
-        <td>49.5</td>
-    </tr>
-    <tr>
-        <td rowspan="4" align="center">COCO</td>
-        <td><a href="https://drive.google.com/file/d/1_zJCRaYMDK77wmaYul6bHb6_M5qlJ8zP/view?usp=sharing">LitePose-Auto-L</a></td>
-        <td>13.8</td>
-        <td>62.5</td>
-    </tr>
-    <tr>
-        <td><a href="https://drive.google.com/file/d/1OIXIwE1VMSlWbDsZzYJU-qlIxPNAnBPh/view?usp=sharing">LitePose-Auto-M</a></td>
-        <td>7.8</td>
-        <td>59.8</td>
-    </tr>
-    <tr>
-        <td><a href="https://drive.google.com/file/d/10NCT0UrQvMmTdjMLR7l-WvFBrvMofjXs/view?usp=sharing">LitePose-Auto-S</a></td>
-        <td>5.0</td>
-        <td>56.8</td>
-    </tr>
-    <tr>
-        <td>LitePose-Auto-XS</td>
-        <td>1.2</td>
-        <td>40.6</td>
-    </tr>
-</table>
-
-## Acknowledgements
-
-Lite Pose is based on [HRNet-family](https://github.com/HRNet), mainly on [HigherHRNet](https://github.com/HRNet/HigherHRNet-Human-Pose-Estimation). Thanks for their well-organized code!
-
-About Large Kernel Convs, several recent papers have found similar conclusions: [ConvNeXt](https://arxiv.org/abs/2201.03545), [RepLKNet](https://arxiv.org/abs/2203.06717). We are looking forward to more applications of large kernels on different tasks!
-
-## Citation
-
-If Lite Pose is useful or relevant to your research, please kindly recognize our contributions by citing our paper:
-
-```bibtex
-@article{wang2022lite,
-  title={Lite Pose: Efficient Architecture Design for 2D Human Pose Estimation},
-  author={Wang, Yihan and Li, Muyang and Cai, Han and Chen, Wei-Ming and Han, Song},
-  journal={arXiv preprint arXiv:2205.01271},
-  year={2022}
+예시 : Training epoch 을 커스텀 세팅하고 싶은 경우, 이 값은 mobile.yaml 의 TRAIN / END_EPOCH 에 정의되어 있으므로 아래와 같이 동일한 레벨에 정의를 해준다.
+```
+{
+  "model_type" : "litepose_xs",
+  "dataset_path" : "/root/dataset/crowdpose",
+  "num_joint" : 14,
+  "dataset_format" : "crowd_pose",
+  "cfg": {
+      "TRAIN": {
+          "END_EPOCH": 500
+      }
+  },
+  "output_path" : "/root/output"
 }
 ```
+

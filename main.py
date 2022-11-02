@@ -137,7 +137,7 @@ def make_yaml_file(json_dict, task_id):
     cfg_dict["MULTIPROCESSING_DISTRIBUTED"] = False
     cfg_dict["DATASET"]["ROOT"] = dataset_path
     cfg_dict["OUTPUT_DIR"] = f"{task_id}/output"
-    cfg_dict["LOG_DIR"] = f"{task_id}/log"
+    cfg_dict["LOG_DIR"] = f"{json_dict['output_path']}/{task_id}/log"
     cfg_dict["DATASET"]["DATASET"] = f"{dataset_format}_kpt"
     cfg_dict["DATASET"]["DATASET_TEST"] = dataset_format
     cfg_dict["MODEL"]["PRETRAINED"] = weight
@@ -222,4 +222,4 @@ def main(valid=False):
 
 
 if __name__ == "__main__":
-    main()
+    main(valid=True)
