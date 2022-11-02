@@ -53,7 +53,7 @@ git clone https://github.com/jwbaek-nota/litepose.git
 3. docker build
 
 ```
-docker build -f Dockerfile -t notadockerhub/litepose:latest
+docker build -f Dockerfile -t notadockerhub/litepose:latest .
 ```
 
 <br/>
