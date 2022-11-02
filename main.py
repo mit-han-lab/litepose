@@ -218,7 +218,9 @@ def main(valid=False):
         test_p.wait()
 
     make_onnx(cfg_file_path, supercfg, model_best_path, task_id, [1,3,256,256], f"{test_cfg_dict['OUTPUT_DIR']}/{task_id}.onnx")
-    copy_tree(test_cfg_dict["OUTPUT_DIR"], f"{json_dict["output_path"]}/output")
+    output_path = f"{json_dict["output_path"]}/{task_id}/output"
+    copy_tree(test_cfg_dict["OUTPUT_DIR"], output_path)
+    print(f"outputs are saved at {output_path}")
 
 
 if __name__ == "__main__":
