@@ -1,5 +1,5 @@
 {
-  "model_type" : "litepose_xs",
+  "model_type" : "litepose_l",
   "dataset_path" : "/root/dataset/crowdpose",
   "num_joint" : 14,
   "dataset_format" : "crowd_pose",
