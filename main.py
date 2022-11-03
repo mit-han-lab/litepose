@@ -182,6 +182,7 @@ def main(valid=False):
     # task id
     task_id = str(uuid.uuid4())
     task_id = "task_id_" + task_id.replace('-', '_')
+    print(f"task_id : {task_id}")
     args = parse_args()
     json_file_path = args.json
     json_dict = read_json_file(json_file_path)
@@ -218,7 +219,7 @@ def main(valid=False):
         test_p.wait()
 
     make_onnx(cfg_file_path, supercfg, model_best_path, task_id, [1,3,256,256], f"{test_cfg_dict['OUTPUT_DIR']}/{task_id}.onnx")
-    output_path = f"{json_dict["output_path"]}/{task_id}/output"
+    output_path = f"{json_dict['output_path']}/{task_id}/output"
     copy_tree(test_cfg_dict["OUTPUT_DIR"], output_path)
     print(f"outputs are saved at {output_path}")
 

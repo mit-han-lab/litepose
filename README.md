@@ -115,3 +115,7 @@ cfg 하위에 정의된 값들은 experiments/crowd_pose/mobilenet/mobile.yaml �
 }
 ```
 
+7. 기타
+
+* log (tensorboard) 는 {output_path}/{task_id}/log 에 저장되며, host 에 바로 저장되므로 host 에서 tensorboard 서버를 실행하여 진행 상황을 확인하는 것이 가능하다.
+* output (pth 파일, onnx 파일, 실행 결과 데이터 등등) 은 {output_path}/{task_id}/output 에 저장되며, 이 결과물은 실행이 완료 된 후에 host 에서 확인이 가능하다.
