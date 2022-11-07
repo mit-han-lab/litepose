@@ -42,10 +42,15 @@ MODEL_TYPE_CFG = {
         "supercfg" : "mobile_configs/search-L.json" 
     },
     "higherhrnet_w32": {
-        "cfg" : "w32_512_adam_lr1e-3.yaml",
-        "weight" : "hrnet_w32-36af842e.pth",
+        "cfg" : "experiments/crowd_pose/higher_hrnet/w32_512_adam_lr1e-3.yaml",
+        "weight" : "weights/hrnet_w32-36af842e.pth",
         "supercfg" : None
     },
+    "higherhrnet_w16": {
+        "cfg" : "experiments/crowd_pose/higher_hrnet/w16_512_adam_lr1e-3.yaml",
+        "weight" : "weights/hrnet_w32-36af842e.pth",
+        "supercfg" : None
+    }
 }
 
 
