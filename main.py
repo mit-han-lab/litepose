@@ -17,7 +17,8 @@ MODEL_TYPE_LIST = [
     "litepose_s",
     "litepose_m",
     "litepose_l",
-    "higherhrnet_w32"
+    "higherhrnet_w32",
+    "higherhrnet_w16"
 ]
 
 MODEL_TYPE_CFG = {
