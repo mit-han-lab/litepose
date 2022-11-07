@@ -1,0 +1,9 @@
+{
+    "model_type" : "higherhrnet_w16",
+    "dataset_path" : "/root/dataset/crowdpose",
+    "num_joint" : 14,
+    "dataset_format" : "crowd_pose",
+    "cfg": {
+    },
+    "output_path" : "/root/output"
+  }
