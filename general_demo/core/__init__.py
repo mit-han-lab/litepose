@@ -32,6 +32,7 @@ transforms = torchvision.transforms.Compose(
 
 def process(cfg, frame: np.ndarray, executor) -> np.ndarray:
     parser = HeatmapParser(cfg)
+    print(type(frame))
     image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     h, w = image.shape[:2]
     img_res = min(h, w)
@@ -50,7 +51,7 @@ def process(cfg, frame: np.ndarray, executor) -> np.ndarray:
             image_resized, center, scale = resize_align_multi_scale(
                 image, input_size, s, min(cfg.TEST.SCALE_FACTOR)
             )
-            image_resized = transforms(image_resized).cuda()
+            image_resized = transforms(image_resized)
             outputs, heatmaps, tags = get_multi_stage_outputs(
                 cfg, executor, image_resized, cfg.TEST.FLIP_TEST,
                 cfg.TEST.PROJECT2IMAGE, base_size

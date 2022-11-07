@@ -1,5 +1,6 @@
 from core import process
 import onnxruntime
+import numpy as np
 from yacs.config import CfgNode as CN
 
 
@@ -174,7 +175,11 @@ class ONNXModel(PEModel):
         return onnxruntime.InferenceSession(model_path)
         
     def __call__(self, image):
-        return ortsession.run(None, image)
+        image = image.numpy()
+        image = np.expand_dims(image, axis=0)
+        inputs = self.model.get_inputs()[0].name
+        outputs = [x.name for x in self.model.get_outputs()]
+        return self.model.run(outputs, {inputs: image})
 
 
 
@@ -185,16 +190,16 @@ def to_numpy(tensor):
 if __name__ == "__main__":
     from PIL import Image
     import torchvision.transforms as transforms
-    img = Image.open("sample_model/model.jpg")
-    resize = transforms.Resize([256,256])
-    img = resize(img)
-    to_tensor = transforms.ToTensor()
-    img = to_tensor(img)
-    img.unsqueeze_(0)
+    
 
-       
+    img = Image.open("sample_model/model.jpg")
+    img = np.array(img)
 
     gg = PEExcutor("sample_model/test.onnx", "onnx", "sample_model/mobile.yaml")
-    ort_inputs = {gg.model.model.get_inputs()[0].name: to_numpy(img)}
     
-    print(gg(ort_inputs))
+    result = gg(img)
+
+    import matplotlib.image as mpimg
+
+
+    mpimg.imsave("sample_model/result.png", result)

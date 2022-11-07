@@ -95,6 +95,15 @@ def get_multi_stage_outputs(
     tags = []
 
     outputs = model(image)
+    ###
+    import matplotlib.image as mpimg
+    print(outputs[0].shape)
+    print(outputs[1].shape)
+    for i in range(0, outputs[1][0].shape[0]):
+        mpimg.imsave(f"sample_model/m_{i}.png", outputs[1][0][i])
+    #mpimg.imsave("sample_model/m_1.png", outputs[1])
+
+    outputs = [torch.from_numpy(a) for a in outputs]
     for i, output in enumerate(outputs):
         if len(outputs) > 1 and i != len(outputs) - 1:
             output = torch.nn.functional.interpolate(
