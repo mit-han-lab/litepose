@@ -15,10 +15,10 @@ LitePose for internal use
 
 |model|FLOPs(GMac)|# of parameters|mAP(0.5)|mAP(0.5:0.9)|
 |---|---|---|---|---|
-|LitePose-XS|
+|LitePose-XS|1.2|1.68|0.729|0.446|
 |LitePose-S|4.98|2.73|0.744|0.514|
 |LitePose-M|7.84|3.53|0.759|0.517|
-|LitePose-L|
+|LitePose-L|13.71|5.74|0.608|0.352(?)|
 |HigherHRNet (w32)|48.03|28.64|0.822|0.601|
 
 * coco pretrained model 에 crwod pose 데이터셋 학습 결과

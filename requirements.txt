@@ -12,3 +12,4 @@ cffi
 munkres
 tqdm
 ptflops
+onnxruntime

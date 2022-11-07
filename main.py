@@ -148,7 +148,7 @@ def make_yaml_file(json_dict, task_id):
     cfg_dict = update_dict(cfg_dict, json_cfg)
     
     # write
-    cfg_file_path = f"{task_id}/cfg.yaml"
+    cfg_file_path = f"{cfg_dict['OUTPUT_DIR']}/cfg.yaml"
     with open(cfg_file_path, 'w') as f:
         yaml.dump(cfg_dict, f)
 
