@@ -83,7 +83,7 @@ def process(cfg, frame: np.ndarray, executor) -> np.ndarray:
 def get_model_executor():
     if not os.path.exists('checkpoints/lite_pose_nano.tar'):
         os.makedirs('checkpoints/', exist_ok=True)
-        wget.download('https://hanlab.mit.edu/files/litepose/pretrained/lite_pose_nano.tar',
+        wget.download('https://hanlab18.mit.edu/files/litepose/pretrained/lite_pose_nano.tar',
                       'checkpoints/lite_pose_nano.tar')
 
     lib = tvm.runtime.load_module('checkpoints/lite_pose_nano.tar')
