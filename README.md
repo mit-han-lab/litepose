@@ -173,9 +173,6 @@ python valid.py --cfg experiments/crowd_pose/mobilenet/mobile.yaml --superconfig
 
 To re-implement results in the paper, we need to load pre-trained checkpoints before training super-nets. These checkpoints are provided in [COCO-Pretrain](https://drive.google.com/file/d/18WOtQ6yi-pn69bAOeYojXMI7l8sZZG3p/view?usp=sharing) and [CrowdPose-Pretrain](https://drive.google.com/file/d/1fojt0DJA5WPg3IqdkGTpyOps4mdxpGn9/view?usp=sharing).
 
-#### APK for Android Phones
-[goodle drive link](https://drive.google.com/file/d/1qZIpFM4v0bGK4TzV5ohqP9i5dwgpB8d5/view?usp=sharing)
-
 #### Result Models
 
 We provide the checkpoints corresponding to the results in our paper.
