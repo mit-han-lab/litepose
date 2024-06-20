@@ -57,12 +57,10 @@ class CrowdPoseDataset(Dataset):
         self.num_classes = len(self.classes)
         self._class_to_ind = dict(zip(self.classes, range(self.num_classes)))
         self._class_to_coco_ind = dict(zip(cats, self.coco.getCatIds()))
-        self._coco_ind_to_class_ind = dict(
-            [
-                (self._class_to_coco_ind[cls], self._class_to_ind[cls])
+        self._coco_ind_to_class_ind = {
+                self._class_to_coco_ind[cls]: self._class_to_ind[cls]
                 for cls in self.classes[1:]
-            ]
-        )
+        }
 
     def _get_anno_file_name(self):
         # example: root/json/crowdpose_{train,val,test}.json
